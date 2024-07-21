@@ -96,7 +96,6 @@ function M.setup()
     })
 end
 
-print("yeaaah")
 M.setup()
 
 return M
