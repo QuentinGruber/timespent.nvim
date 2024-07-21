@@ -5,3 +5,8 @@ fmt:
 lint:
 	echo "===> Linting"
 	luacheck . --globals vim
+
+test:
+	echo "===> Testing"
+	nvim --headless -c "PlenaryBustedDirectory lua/timespent/test"
+
