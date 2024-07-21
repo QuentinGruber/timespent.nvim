@@ -11,6 +11,7 @@ local function formatTime(timesec)
     return string.format("%02d:%02d:%02d", hours, minutes, seconds)
 end
 
+---@class TimeSpent
 local TimeSpent = {}
 
 local function displayTime()
@@ -84,16 +85,16 @@ local function registerProgress()
     lastTimeSave = os.time()
 end
 
-function TimeSpent.setup()
+function TimeSpent.setup(args)
     uv.fs_mkdir(constants.NVIM_DATA_FOLDER_PATH, constants.RWD_FS)
     local fd = uv.fs_open(constants.DATA_FILE_PROJECTS, "a", constants.RWD_FS)
     uv.fs_close(fd)
+    vim.api.nvim_create_user_command("ShowTime", displayTime, {})
+    vim.api.nvim_create_autocmd({ "BufLeave", "ExitPre" }, {
+        callback = function()
+            registerProgress()
+        end,
+    })
 end
 
-vim.api.nvim_create_user_command("ShowTime", displayTime, {})
-vim.api.nvim_create_autocmd({ "BufLeave", "ExitPre" }, {
-    callback = function()
-        registerProgress()
-    end,
-})
 return TimeSpent
