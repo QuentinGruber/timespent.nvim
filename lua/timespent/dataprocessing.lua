@@ -12,10 +12,16 @@ function dataprocessing.get_fd_file()
     return uv.fs_open(constants.DATA_FILE_PROJECTS, "r+", constants.RWD_FS)
 end
 function dataprocessing.get_data(fd)
-    -- TODO: which size to use?
-    local raw = uv.fs_read(fd, 2000)
+    local file_info = uv.fs_fstat(fd)
+    if file_info == nil then
+        vim.notify("file info is nil")
+        return
+    end
+    local file_size = file_info.size
+    local raw = uv.fs_read(fd, file_size)
     if raw == nil then
         vim.notify("raw is nil")
+        return
     end
     local sttable = {}
     local lines = local_utils.split(raw, "\n")
