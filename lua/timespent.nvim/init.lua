@@ -10,6 +10,9 @@ local function formatTime(timesec)
 
     return string.format("%02d:%02d:%02d", hours, minutes, seconds)
 end
+
+local TimeSpent = {}
+
 local function displayTime()
     local fd = uv.fs_open(constants.DATA_FILE_PROJECTS, "r+", constants.RWD_FS)
     local exitantData = dataprocessing.get_data(fd)
@@ -81,7 +84,7 @@ local function registerProgress()
     lastTimeSave = os.time()
 end
 
-local function setup()
+function TimeSpent.setup()
     uv.fs_mkdir(constants.NVIM_DATA_FOLDER_PATH, constants.RWD_FS)
     local fd = uv.fs_open(constants.DATA_FILE_PROJECTS, "a", constants.RWD_FS)
     uv.fs_close(fd)
@@ -92,4 +95,5 @@ local function setup()
         end,
     })
 end
-setup()
+
+return TimeSpent
