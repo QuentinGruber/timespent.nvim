@@ -94,6 +94,7 @@ function M.init()
             registerProgress()
         end,
     })
+    vim.notify("heyy")
 end
 
 return M
