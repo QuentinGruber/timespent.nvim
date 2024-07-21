@@ -19,7 +19,7 @@ function dataprocessing.get_data(fd)
     end
     local sttable = {}
     local lines = local_utils.split(raw, "\n")
-    for i, line in ipairs(lines) do
+    for _, line in ipairs(lines) do
         local parts = local_utils.split(line, ",")
         local path = ""
         local time = 0
@@ -39,7 +39,7 @@ function dataprocessing.get_data(fd)
 end
 function dataprocessing.encode_data(data)
     local encoded_string = ""
-    for i, value in ipairs(data) do
+    for _, value in ipairs(data) do
         local formattedvalue = dataprocessing.format(value.path, value.time)
         -- TODO: shitty
         encoded_string = string.format("%s\n%s", encoded_string, formattedvalue)
@@ -50,7 +50,7 @@ function dataprocessing.write_new_data(path, time)
     local fd = uv.fs_open(constants.DATA_FILE_PROJECTS, "r+", constants.RWD_FS)
     local exitantData = dataprocessing.get_data(fd)
     local exist = false
-    for index, value in ipairs(exitantData) do
+    for _, value in ipairs(exitantData) do
         if value.path == path then
             value:addTime(time)
             exist = true

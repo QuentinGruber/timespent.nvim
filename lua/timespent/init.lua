@@ -3,17 +3,10 @@ local lastTimeSave = os.time()
 local local_utils = require("timespent.utils")
 local constants = require("timespent.constants")
 local dataprocessing = require("timespent.dataprocessing")
-local function formatTime(timesec)
-    local hours = math.floor(timesec / 3600)
-    local minutes = math.floor((timesec % 3600) / 60)
-    local seconds = timesec % 60
-
-    return string.format("%02d:%02d:%02d", hours, minutes, seconds)
-end
 
 local M = {}
 
-local function displayTime()
+function M.displayTime()
     local fd = uv.fs_open(constants.DATA_FILE_PROJECTS, "r+", constants.RWD_FS)
     local exitantData = dataprocessing.get_data(fd)
 
@@ -40,14 +33,14 @@ local function displayTime()
         -- TODO: shitty it sould be a number per default and not that
         return tonumber(a.time) > tonumber(b.time)
     end)
-    for index, value in ipairs(exitantData) do
+    for _, value in ipairs(exitantData) do
         local firstChar = string.sub(value.path, 1, 1)
 
         if firstChar == "/" then
             local stringtoinsert = string.format(
                 "%s, Time: %s",
                 value.path,
-                formatTime(value.time)
+                local_utils.formatTime(value.time)
             )
             table.insert(buff_lines, stringtoinsert)
         end
@@ -72,7 +65,7 @@ local function displayTime()
     )
 end
 
-local function registerProgress()
+function M.registerProgress()
     local currentTime = os.time()
     local diff = os.difftime(currentTime, lastTimeSave)
     local current_file = local_utils.get_current_file()
@@ -88,13 +81,12 @@ function M.init()
     uv.fs_mkdir(constants.NVIM_DATA_FOLDER_PATH, constants.RWD_FS)
     local fd = uv.fs_open(constants.DATA_FILE_PROJECTS, "a", constants.RWD_FS)
     uv.fs_close(fd)
-    vim.api.nvim_create_user_command("ShowTime", displayTime, {})
+    vim.api.nvim_create_user_command("ShowTime", M.displayTime, {})
     vim.api.nvim_create_autocmd({ "BufLeave", "ExitPre" }, {
         callback = function()
-            registerProgress()
+            M.registerProgress()
         end,
     })
-    vim.notify("heyy")
 end
 
 return M

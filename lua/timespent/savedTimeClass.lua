@@ -1,20 +1,24 @@
--- Define the Person class
-SavedTime = {}
+local SavedTime = {}
 SavedTime.__index = SavedTime
 
 -- Constructor
 function SavedTime:new(path, time)
     local obj = {
         path = path,
-        time = time,
+        time = time or 0, -- Default to 0 if time is not provided
     }
-    setmetatable(obj, SavedTime)
+    setmetatable(obj, self)
     return obj
 end
 
--- Method
+-- Method to add time
 function SavedTime:addTime(time)
     self.time = self.time + time
+end
+
+-- Method to get the current saved time
+function SavedTime:getTime()
+    return self.time
 end
 
 return SavedTime
