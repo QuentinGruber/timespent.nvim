@@ -11,8 +11,7 @@ local function formatTime(timesec)
     return string.format("%02d:%02d:%02d", hours, minutes, seconds)
 end
 
----@class TimeSpent
-local TimeSpent = {}
+local M = {}
 
 local function displayTime()
     local fd = uv.fs_open(constants.DATA_FILE_PROJECTS, "r+", constants.RWD_FS)
@@ -85,7 +84,7 @@ local function registerProgress()
     lastTimeSave = os.time()
 end
 
-function TimeSpent.setup(args)
+function M.setup(args)
     uv.fs_mkdir(constants.NVIM_DATA_FOLDER_PATH, constants.RWD_FS)
     local fd = uv.fs_open(constants.DATA_FILE_PROJECTS, "a", constants.RWD_FS)
     uv.fs_close(fd)
@@ -97,6 +96,6 @@ function TimeSpent.setup(args)
     })
 end
 
-vim.notify("yeaaah")
+print("yeaaah")
 
-return TimeSpent
+return M
