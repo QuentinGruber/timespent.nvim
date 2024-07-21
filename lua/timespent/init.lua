@@ -96,6 +96,4 @@ function M.init()
     })
 end
 
-M.init()
-
 return M
