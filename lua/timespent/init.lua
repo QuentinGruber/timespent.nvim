@@ -84,7 +84,7 @@ local function registerProgress()
     lastTimeSave = os.time()
 end
 
-function M.setup(args)
+function M.setup()
     uv.fs_mkdir(constants.NVIM_DATA_FOLDER_PATH, constants.RWD_FS)
     local fd = uv.fs_open(constants.DATA_FILE_PROJECTS, "a", constants.RWD_FS)
     uv.fs_close(fd)
@@ -97,5 +97,6 @@ function M.setup(args)
 end
 
 print("yeaaah")
+M.setup()
 
 return M
