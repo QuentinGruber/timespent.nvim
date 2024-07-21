@@ -97,4 +97,6 @@ function TimeSpent.setup(args)
     })
 end
 
+vim.notify("yeaaah")
+
 return TimeSpent
