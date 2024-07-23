@@ -42,7 +42,6 @@ function UI.displayTime()
                 value.path,
                 local_utils.formatTime(value.time)
             )
-            print(stringtoinsert)
             table.insert(buff_lines, stringtoinsert)
         end
     end
