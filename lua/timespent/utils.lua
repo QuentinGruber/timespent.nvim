@@ -22,12 +22,7 @@ function utils.formatTime(timesec)
 end
 
 function utils.get_uv()
-    local v =
-        vim.version.parse(vim.fn.system({ "nvim", "-v" }), { strict = false })
-    print(v)
-    local ge = vim.version.ge(v, "0.9.0")
-    print(ge)
-    if ge then
+    if vim.uv then
         return vim.uv
     else
         return vim.loop
