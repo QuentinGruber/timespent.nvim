@@ -12,8 +12,8 @@ jobs:
         include:
           - os: ubuntu-22.04
             rev: nightly/nvim-linux64.tar.gz
-          - os: ubuntu-22.04
-            rev: v0.9.0/nvim-linux64.tar.gz
+          # - os: ubuntu-22.04
+          #   rev: v0.9.0/nvim-linux64.tar.gz
     steps:
       - uses: actions/checkout@v3
       - run: date +%F > todays-date
@@ -31,8 +31,8 @@ jobs:
           }
       - name: Dependencies
         run: |
-            git clone --depth 1 https://github.com/nvim-lua/plenary.nvim ~/.local/share/nvim/site/pack/vendor/start/plenary.nvim
-            ln -s "$(pwd)" ~/.local/share/nvim/site/pack/vendor/start
+          git clone --depth 1 https://github.com/nvim-lua/plenary.nvim ~/.local/share/nvim/site/pack/vendor/start/plenary.nvim
+          ln -s "$(pwd)" ~/.local/share/nvim/site/pack/vendor/start
       - name: Run tests
         run: |
           export PATH="${PWD}/_neovim/bin:${PATH}"
