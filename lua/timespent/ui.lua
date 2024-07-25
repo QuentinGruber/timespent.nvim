@@ -38,8 +38,7 @@ function UI.displayTime()
         if firstChar == "/" or firstChar == "C" then
             local stringtoinsert = string.format(
                 "%s, Time: %s",
-                -- value.path:match(".*/(.*)"),
-                value.path,
+                value.path:match(".*[\\/](.*)"),
                 local_utils.formatTime(value.time)
             )
             table.insert(buff_lines, stringtoinsert)
