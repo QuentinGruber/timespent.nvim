@@ -23,4 +23,4 @@ jobs:
         run: cargo install stylua
 
       - name: Format
-        run: make fmt
+        run: make fmt-check
