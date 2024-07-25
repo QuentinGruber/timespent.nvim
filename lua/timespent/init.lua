@@ -23,7 +23,7 @@ function timespent.init()
     uv.fs_mkdir(constants.NVIM_DATA_FOLDER_PATH, constants.RWD_FS)
     local fd = uv.fs_open(constants.DATA_FILE_PROJECTS, "a", constants.RWD_FS)
     uv.fs_close(fd)
-    vim.api.nvim_create_user_command("ShowTime", ui.displayTime, {})
+    vim.api.nvim_create_user_command("ShowTimeSpent", ui.displayTime, {})
     vim.api.nvim_create_autocmd({ "BufLeave", "ExitPre" }, {
         callback = function()
             timespent.registerProgress()
