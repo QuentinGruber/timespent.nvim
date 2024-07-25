@@ -12,4 +12,8 @@ lint:
 test:
 	echo "===> Testing"
 	nvim --headless -c "PlenaryBustedDirectory lua/timespent/test"
+ci:
+	make fmt-check
+	make lint
+	make test
 
