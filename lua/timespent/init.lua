@@ -19,7 +19,7 @@ function timespent.registerProgress()
     lastTimeSave = os.time()
 end
 
-function timespent.init()
+function timespent.setup()
     uv.fs_mkdir(constants.NVIM_DATA_FOLDER_PATH, constants.RWD_FS)
     local fd = uv.fs_open(constants.DATA_FILE_PROJECTS, "a", constants.RWD_FS)
     uv.fs_close(fd)

@@ -1,1 +1,1 @@
-require("timespent").init()
+require("timespent").setup()
