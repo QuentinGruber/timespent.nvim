@@ -1,7 +1,7 @@
-local uv = vim.uv
 local local_utils = require("timespent.utils")
 local constants = require("timespent.constants")
 local dataprocessing = require("timespent.dataprocessing")
+local uv = local_utils.get_uv()
 
 local UI = {}
 

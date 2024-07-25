@@ -4,7 +4,7 @@ local dataprocessing = {}
 local constants = require("timespent.constants")
 local SavedTime = require("timespent.savedTimeClass")
 
-local uv = vim.uv
+local uv = local_utils.get_uv()
 function dataprocessing.format(path, time)
     return string.format("%s,%d", path, time)
 end

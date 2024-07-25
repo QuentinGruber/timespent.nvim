@@ -1,10 +1,10 @@
-local uv = vim.uv
 local lastTimeSave = os.time()
 local local_utils = require("timespent.utils")
 local constants = require("timespent.constants")
 local dataprocessing = require("timespent.dataprocessing")
 local ui = require("timespent.ui")
 
+local uv = local_utils.get_uv()
 local timespent = {}
 
 function timespent.registerProgress()
