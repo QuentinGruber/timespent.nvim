@@ -59,6 +59,20 @@ function UI.displayTime()
     vim.api.nvim_buf_set_keymap(
         buf,
         "n",
+        "<C-h>",
+        "<Cmd>bd!<CR>",
+        { noremap = true, silent = true }
+    )
+    vim.api.nvim_buf_set_keymap(
+        buf,
+        "n",
+        "<C-l>",
+        "<Cmd>bd!<CR>",
+        { noremap = true, silent = true }
+    )
+    vim.api.nvim_buf_set_keymap(
+        buf,
+        "n",
         "d",
         "",
         { noremap = true, silent = true }
