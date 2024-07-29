@@ -4,14 +4,15 @@ SavedTime.__index = SavedTime
 -- Constructor
 function SavedTime:new(path, time)
     local corrupted
-    if path ~= "" and time ~= 0 then
+    local timeNumber = tonumber(time)
+    if path ~= "" and timeNumber ~= "fail" then
         corrupted = false
     else
         corrupted = true
     end
     local obj = {
         path = path,
-        time = time,
+        time = timeNumber,
         corrupted = corrupted,
     }
     setmetatable(obj, self)
