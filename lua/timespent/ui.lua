@@ -50,6 +50,9 @@ function UI.open_buffer()
 end
 
 -- Disable a keymap for a given buffer
+---@param buffer integer --
+---@param mode string --
+---@param key string --
 function UI.disable_key(buffer, mode, key)
     vim.api.nvim_buf_set_keymap(
         buffer,
@@ -61,6 +64,9 @@ function UI.disable_key(buffer, mode, key)
 end
 
 -- Set an exit key for a buffer
+---@param buffer integer --
+---@param mode string --
+---@param key string --
 function UI.set_exit_key(buffer, mode, key)
     vim.api.nvim_buf_set_keymap(
         buffer,
@@ -72,6 +78,7 @@ function UI.set_exit_key(buffer, mode, key)
 end
 
 -- Apply custom keymaps to a buffer
+---@param buffer integer --
 function UI.apply_buffer_keymaps(buffer)
     UI.set_exit_key(buffer, "n", "q")
     UI.set_exit_key(buffer, "n", "<C-h>")

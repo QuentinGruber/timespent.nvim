@@ -28,6 +28,8 @@ function dataprocessing.get_data()
     return sttable
 end
 -- Encode data to the save format
+---@param data table -- The data to encode
+---@return  string -- The data encoded
 function dataprocessing.encode_data(data)
     local encoded_table = {}
 
@@ -38,6 +40,8 @@ function dataprocessing.encode_data(data)
     return table.concat(encoded_table, "\n")
 end
 -- Save / edit a time save entry
+---@param path string --
+---@param time integer --
 function dataprocessing.save_data(path, time)
     local exitantData = dataprocessing.get_data()
     local exist = false
