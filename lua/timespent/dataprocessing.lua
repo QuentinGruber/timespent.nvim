@@ -7,24 +7,26 @@ local SavedTime = require("timespent.savedTimeClass")
 -- get saved data
 function dataprocessing.get_data()
     local raw = local_utils.read_file(constants.DATA_FILE_PROJECTS)
+    if not raw then
+        error("Failed to read data file: " .. constants.DATA_FILE_PROJECTS)
+    end
+
     local sttable = {}
     local lines = local_utils.split(raw, "\n")
+
     for _, line in ipairs(lines) do
         local parts = local_utils.split(line, ",")
-        local path = ""
-        local time = 0
-        for index, value in ipairs(parts) do
-            if index == 1 then
-                path = value
-            elseif index == 2 then
-                time = value
+        if #parts >= 2 then -- Ensure there are at least 2 parts
+            local path = parts[1]
+            local time = parts[2]
+
+            local st = SavedTime:new(path, time)
+            if not st.corrupted then
+                table.insert(sttable, st)
             end
         end
-        local st = SavedTime:new(path, time)
-        if st.corrupted ~= true then
-            table.insert(sttable, st)
-        end
     end
+
     return sttable
 end
 -- Encode data to the save format
