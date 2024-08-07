@@ -3,24 +3,50 @@ local dataprocessing = require("timespent.dataprocessing")
 
 local UI = {}
 
+function UI.insert_dir_line(buff_lines, value)
+    local stringtoinsert = string.format(
+        "* %s, Time: %s",
+        value.path:match(".*[\\/](.*)"),
+        local_utils.formatTime(value.time)
+    )
+    table.insert(buff_lines, stringtoinsert)
+    -- TODO: check if lua pass per ref or per value
+    return buff_lines
+end
+
+function UI.insert_file_line(buff_lines, value)
+    local stringtoinsert = string.format(
+        "--- %s, Time: %s",
+        value.path:gsub(value.parent, ""),
+        local_utils.formatTime(value.time)
+    )
+    table.insert(buff_lines, stringtoinsert)
+    -- TODO: check if lua pass per ref or per value
+    return buff_lines
+end
+
 function UI.get_buffer_lines()
     local exitantData = dataprocessing.get_data()
-    table.sort(exitantData, function(a, b)
+    local dirData = {}
+    for _, value in ipairs(exitantData) do
+        if value.type == "dir" then
+            value.childs = {}
+            for _, child in ipairs(exitantData) do
+                if child.parent == value.path then
+                    table.insert(value.childs, child)
+                end
+            end
+            table.insert(dirData, value)
+        end
+    end
+    table.sort(dirData, function(a, b)
         return a.time > b.time
     end)
     local buff_lines = {}
-    for _, value in ipairs(exitantData) do
-        -- lin
-        local firstChar = string.sub(value.path, 1, 1)
-        -- win
-        local secondChar = string.sub(value.path, 2, 2)
-        if firstChar == "/" or secondChar == ":" then
-            local stringtoinsert = string.format(
-                "%s, Time: %s",
-                value.path:match(".*[\\/](.*)"),
-                local_utils.formatTime(value.time)
-            )
-            table.insert(buff_lines, stringtoinsert)
+    for _, value in ipairs(dirData) do
+        buff_lines = UI.insert_dir_line(buff_lines, value)
+        for _, child in ipairs(value.childs) do
+            buff_lines = UI.insert_file_line(buff_lines, child)
         end
     end
     return buff_lines

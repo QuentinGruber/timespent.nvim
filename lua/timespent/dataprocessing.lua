@@ -51,7 +51,10 @@ end
 ---@param time integer --
 function dataprocessing.save_progress(cwd, currentFile, time)
     local data = dataprocessing.get_data()
-    data = dataprocessing.registerEntry(data, currentFile, cwd, time, "file")
+    if currentFile ~= "" and currentFile:sub(0, 7) ~= "term://" then
+        data =
+            dataprocessing.registerEntry(data, currentFile, cwd, time, "file")
+    end
     data = dataprocessing.registerEntry(data, cwd, "", time, "dir")
     local encoded_string = dataprocessing.encode_data(data)
 
