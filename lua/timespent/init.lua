@@ -11,11 +11,7 @@ function timespent.registerProgress()
     local diff = os.difftime(currentTime, lastTimeSave)
     local current_file = local_utils.get_current_file()
     local cwd = local_utils.get_current_dir()
-    -- TODO: make one call
-    dataprocessing.save_data(cwd, diff)
-    if current_file ~= "" then
-        dataprocessing.save_data(current_file, diff)
-    end
+    dataprocessing.save_progress(cwd, current_file, diff)
     lastTimeSave = os.time()
 end
 

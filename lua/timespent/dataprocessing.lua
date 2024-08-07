@@ -22,23 +22,38 @@ end
 function dataprocessing.encode_data(data)
     return vim.json.encode(data)
 end
--- Save / edit a time save entry
+
+-- register or update an entry
+---@param data table --
 ---@param path string --
+---@param parent string --
 ---@param time integer --
-function dataprocessing.save_data(path, time)
-    local exitantData = dataprocessing.get_data()
+---@param type string --
+function dataprocessing.registerEntry(data, path, parent, time, type)
     local exist = false
-    for _, value in ipairs(exitantData) do
+    for _, value in ipairs(data) do
         if value.path == path then
             value.time = value.time + time
             exist = true
         end
     end
     if exist == false then
-        local newsavedtime = SavedTime:new(path, time)
-        table.insert(exitantData, newsavedtime)
+        local newsavedtime = SavedTime:new(path, time, type, parent)
+        table.insert(data, newsavedtime)
     end
-    local encoded_string = dataprocessing.encode_data(exitantData)
+
+    return data
+end
+
+-- Save progress
+---@param cwd string --
+---@param currentFile string --
+---@param time integer --
+function dataprocessing.save_progress(cwd, currentFile, time)
+    local data = dataprocessing.get_data()
+    data = dataprocessing.registerEntry(data, currentFile, cwd, time, "file")
+    data = dataprocessing.registerEntry(data, cwd, "", time, "dir")
+    local encoded_string = dataprocessing.encode_data(data)
 
     local_utils.write_file(constants.DATA_FILE_PROJECTS, encoded_string)
 end
