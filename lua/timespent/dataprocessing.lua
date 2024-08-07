@@ -41,8 +41,6 @@ function dataprocessing.registerEntry(data, path, parent, time, type)
         local newsavedtime = SavedTime:new(path, time, type, parent)
         table.insert(data, newsavedtime)
     end
-
-    return data
 end
 
 -- Save progress
@@ -52,10 +50,9 @@ end
 function dataprocessing.save_progress(cwd, currentFile, time)
     local data = dataprocessing.get_data()
     if currentFile ~= "" and currentFile:sub(0, 7) ~= "term://" then
-        data =
-            dataprocessing.registerEntry(data, currentFile, cwd, time, "file")
+        dataprocessing.registerEntry(data, currentFile, cwd, time, "file")
     end
-    data = dataprocessing.registerEntry(data, cwd, "", time, "dir")
+    dataprocessing.registerEntry(data, cwd, "", time, "dir")
     local encoded_string = dataprocessing.encode_data(data)
 
     local_utils.write_file(constants.DATA_FILE_PROJECTS, encoded_string)

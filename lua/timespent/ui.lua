@@ -10,8 +10,6 @@ function UI.insert_dir_line(buff_lines, value)
         local_utils.formatTime(value.time)
     )
     table.insert(buff_lines, stringtoinsert)
-    -- TODO: check if lua pass per ref or per value
-    return buff_lines
 end
 
 function UI.insert_file_line(buff_lines, value)
@@ -21,8 +19,6 @@ function UI.insert_file_line(buff_lines, value)
         local_utils.formatTime(value.time)
     )
     table.insert(buff_lines, stringtoinsert)
-    -- TODO: check if lua pass per ref or per value
-    return buff_lines
 end
 
 function UI.get_buffer_lines()
@@ -36,6 +32,9 @@ function UI.get_buffer_lines()
                     table.insert(value.childs, child)
                 end
             end
+            table.sort(value.childs, function(a, b)
+                return a.time > b.time
+            end)
             table.insert(dirData, value)
         end
     end
@@ -44,9 +43,9 @@ function UI.get_buffer_lines()
     end)
     local buff_lines = {}
     for _, value in ipairs(dirData) do
-        buff_lines = UI.insert_dir_line(buff_lines, value)
+        UI.insert_dir_line(buff_lines, value)
         for _, child in ipairs(value.childs) do
-            buff_lines = UI.insert_file_line(buff_lines, child)
+            UI.insert_file_line(buff_lines, child)
         end
     end
     return buff_lines
@@ -110,6 +109,11 @@ function UI.apply_buffer_keymaps(buffer)
     UI.set_exit_key(buffer, "n", "<C-h>")
     UI.set_exit_key(buffer, "n", "<C-l>")
     UI.disable_key(buffer, "n", "d")
+    UI.disable_key(buffer, "n", "i")
+    UI.disable_key(buffer, "n", "v")
+    UI.disable_key(buffer, "n", "r")
+    UI.disable_key(buffer, "n", "u")
+    UI.disable_key(buffer, "n", "<C-r>")
 end
 
 -- Display a floating buffer with time spent info on it

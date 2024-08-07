@@ -19,12 +19,6 @@ end
 function timespent.setup()
     local_utils.setup_appdata()
     vim.api.nvim_create_user_command("ShowTimeSpent", ui.displayTime, {})
-    -- TODO: debug stuff to remove
-    vim.api.nvim_create_user_command(
-        "RegisterProgress",
-        timespent.registerProgress,
-        {}
-    )
     vim.api.nvim_create_autocmd({ "BufLeave", "ExitPre" }, {
         callback = function()
             timespent.registerProgress()
