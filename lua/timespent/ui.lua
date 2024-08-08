@@ -24,6 +24,7 @@ end
 function UI.get_buffer_lines()
     local exitantData = dataprocessing.get_data()
     local dirData = {}
+    local unparented_files = {}
     for _, value in ipairs(exitantData) do
         if value.type == "dir" then
             value.childs = {}
@@ -37,6 +38,9 @@ function UI.get_buffer_lines()
             end)
             table.insert(dirData, value)
         end
+        if value.type == "file" and value.parent == "" then
+            table.insert(unparented_files, value)
+        end
     end
     table.sort(dirData, function(a, b)
         return a.time > b.time
@@ -46,6 +50,15 @@ function UI.get_buffer_lines()
         UI.insert_dir_line(buff_lines, value)
         for _, child in ipairs(value.childs) do
             UI.insert_file_line(buff_lines, child)
+        end
+    end
+    if #unparented_files > 0 then
+        table.insert(
+            buff_lines,
+            "* Unparented files ( They will link to the appropriate cwd automatically when you open them again )"
+        )
+        for _, value in ipairs(unparented_files) do
+            UI.insert_file_line(buff_lines, value)
         end
     end
     return buff_lines

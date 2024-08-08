@@ -40,7 +40,10 @@ function utils.get_current_dir()
     return uv.cwd()
 end
 function utils.error_log(data)
-    print(data)
+    error("[TimeSpent] " .. data)
+end
+function utils.info_log(data)
+    print("[TimeSpent] " .. data)
 end
 
 -- Create the timespent folder and files if they doesn't exists
@@ -75,5 +78,22 @@ function utils.write_file(path, data)
     local fd = uv.fs_open(path, "w+", constants.RWD_FS)
     uv.fs_write(fd, data)
     uv.fs_close(fd)
+end
+
+-- Function to check if a path is a file or directory
+---@return  string | nil  -- "file" or "dir" or nil
+function utils.get_path_type(path)
+    local stat = uv.fs_stat(path)
+    if not stat then
+        return nil
+    end
+
+    if stat.type == "file" then
+        return "file"
+    elseif stat.type == "directory" then
+        return "dir"
+    else
+        return nil
+    end
 end
 return utils

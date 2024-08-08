@@ -5,14 +5,14 @@ local constants = require("timespent.constants")
 local SavedTime = require("timespent.savedTimeClass")
 
 -- get saved data
+---@return table --
 function dataprocessing.get_data()
     local raw = local_utils.read_file(constants.DATA_FILE_PROJECTS)
     if not raw then
         error("Failed to read data file: " .. constants.DATA_FILE_PROJECTS)
     end
-    -- TODO: do better
     if #raw < 1 then
-        return vim.json.decode("[]")
+        return {}
     end
     return vim.json.decode(raw)
 end
@@ -34,6 +34,9 @@ function dataprocessing.registerEntry(data, path, parent, time, type)
     for _, value in ipairs(data) do
         if value.path == path then
             value.time = value.time + time
+            if value.parent == "" then
+                value.parent = parent
+            end
             exist = true
         end
     end
@@ -43,18 +46,30 @@ function dataprocessing.registerEntry(data, path, parent, time, type)
     end
 end
 
+-- check if the provided path is valid
+---@param path string --
+function dataprocessing.is_valid_path(path)
+    return path ~= "" and path:sub(0, 7) ~= "term://"
+end
+
+-- Save data table to disk
+---@param data table --
+function dataprocessing.save_to_disk(data)
+    local encoded_string = dataprocessing.encode_data(data)
+
+    local_utils.write_file(constants.DATA_FILE_PROJECTS, encoded_string)
+end
+
 -- Save progress
 ---@param cwd string --
 ---@param currentFile string --
 ---@param time integer --
 function dataprocessing.save_progress(cwd, currentFile, time)
     local data = dataprocessing.get_data()
-    if currentFile ~= "" and currentFile:sub(0, 7) ~= "term://" then
+    if dataprocessing.is_valid_path(currentFile) then
         dataprocessing.registerEntry(data, currentFile, cwd, time, "file")
     end
     dataprocessing.registerEntry(data, cwd, "", time, "dir")
-    local encoded_string = dataprocessing.encode_data(data)
-
-    local_utils.write_file(constants.DATA_FILE_PROJECTS, encoded_string)
+    dataprocessing.save_to_disk(data)
 end
 return dataprocessing

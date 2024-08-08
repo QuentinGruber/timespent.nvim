@@ -2,6 +2,7 @@ local lastTimeSave = os.time()
 local local_utils = require("timespent.utils")
 local dataprocessing = require("timespent.dataprocessing")
 local ui = require("timespent.ui")
+local migration = require("timespent.migration")
 
 local timespent = {}
 
@@ -18,6 +19,8 @@ end
 -- Setup appdata folder, commands and autocmds
 function timespent.setup()
     local_utils.setup_appdata()
+    migration.detect_needed_migration()
+
     vim.api.nvim_create_user_command("ShowTimeSpent", ui.displayTime, {})
     vim.api.nvim_create_autocmd({ "BufLeave", "ExitPre" }, {
         callback = function()
