@@ -7,9 +7,12 @@ Display time spent on projects / files
 - install using [lazy.nvim](https://github.com/folke/lazy.nvim)
 
 ```lua
-{
-    "quentingruber/timespent.nvim"
-}
+  {
+    "quentingruber/timespent.nvim",
+    keys = {
+      { "<leader>ts", "<cmd>:ShowTimeSpent<cr>", mode = { "n" }, desc = "Show time spent" },
+    },
+  },
 ```
 
 ## Usage
