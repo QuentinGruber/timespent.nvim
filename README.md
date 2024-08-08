@@ -20,3 +20,12 @@ Display time spent on projects / files
 | Command          | Description                                                   |
 | ---------------- | ------------------------------------------------------------- |
 | `:ShowTimeSpent` | Opens a floating buffer showing where you've spent your time. |
+
+## Planned features
+
+- [ ] min and max save interval options
+- [ ] lualine support
+- [ ] fullscreen mode
+- [ ] filter / sort from buffer
+- [ ] data edition from buffer
+- [ ] csv data export
