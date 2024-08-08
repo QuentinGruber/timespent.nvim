@@ -29,3 +29,4 @@ Display time spent on projects / files
 - [ ] filter / sort from buffer
 - [ ] data edition from buffer
 - [ ] csv data export
+- [ ] better ui
