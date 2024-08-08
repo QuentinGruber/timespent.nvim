@@ -55,8 +55,12 @@ end
 
 -- Read the whole file available at {path}
 ---@param path string -- the path to read
+---@return string | nil -- the path to read
 function utils.read_file(path)
     local fd = uv.fs_open(path, "r+", constants.RWD_FS)
+    if fd == nil then
+        return nil
+    end
     local file_info = uv.fs_fstat(fd)
     if file_info == nil then
         utils.error_log("file info is nil")
