@@ -72,4 +72,29 @@ function dataprocessing.save_progress(cwd, currentFile, time)
     dataprocessing.registerEntry(data, cwd, "", time, "dir")
     dataprocessing.save_to_disk(data)
 end
+
+function dataprocessing.export_csv()
+    local data = dataprocessing.get_data()
+    local headers = "path,type,time,parent\n"
+    local csv_data = string.format("%s", headers)
+    for _, value in ipairs(data) do
+        csv_data = string.format(
+            "%s%s,%s,%s,%s\n",
+            csv_data,
+            value.path,
+            value.type,
+            value.time,
+            value.parent
+        )
+    end
+    local currentTime = os.time()
+    local path = string.format(
+        "%s/%s",
+        constants.NVIM_DATA_FOLDER_PATH,
+        string.format("export_%d.csv", currentTime)
+    )
+    local_utils.write_file(path, csv_data)
+    print(string.format("Export written at %s", path))
+end
+
 return dataprocessing
