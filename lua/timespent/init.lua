@@ -22,6 +22,11 @@ function timespent.setup()
     migration.detect_needed_migration()
 
     vim.api.nvim_create_user_command("ShowTimeSpent", ui.displayTime, {})
+    vim.api.nvim_create_user_command(
+        "ExportTimeSpent",
+        dataprocessing.export_csv,
+        {}
+    )
     vim.api.nvim_create_autocmd({ "BufLeave", "ExitPre" }, {
         callback = function()
             timespent.registerProgress()

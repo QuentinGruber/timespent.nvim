@@ -15,9 +15,10 @@ Display time spent on projects / files
 
 ## Usage
 
-| Command          | Description                                                   |
-| ---------------- | ------------------------------------------------------------- |
-| `:ShowTimeSpent` | Opens a floating buffer showing where you've spent your time. |
+| Command            | Description                                                   |
+| ------------------ | ------------------------------------------------------------- |
+| `:ShowTimeSpent`   | Opens a floating buffer showing where you've spent your time. |
+| `:ExportTimeSpent` | Export your data to csv                                       |
 
 ## Planned features
 
@@ -26,5 +27,5 @@ Display time spent on projects / files
 - [ ] fullscreen mode
 - [ ] filter / sort from buffer
 - [ ] data edition from buffer
-- [ ] csv data export
+- [x] csv data export
 - [ ] better ui
